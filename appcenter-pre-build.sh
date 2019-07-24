@@ -1,5 +1,5 @@
-if [ "$APPCENTER_BRANCH" == "master" ];
+if [ -f "$destdir" ]
 then
-    # Update google services json file before the build
-    echo $GOOGLE-SERVICES-JSON > android/app/google-services.json
+    echo "Overwriting google-services.json file..."
+    echo "$GOOGLE-SERVICES-JSON" > "android/app/google-services.json"
 fi
