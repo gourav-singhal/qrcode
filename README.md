@@ -46,8 +46,8 @@ A few features:
 # Clone the repo
 git clone https://github.com/insiderdev/qrcode.git
 
-# Install dependencies
-yarn install
+# Open the folder and Install dependencies
+cd qrcode && yarn install
 ```
 
 ## 2. Run it on iOS or Android
