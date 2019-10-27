@@ -175,7 +175,7 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      analytics().setCurrentScreen('scanned-code', 'ScannedCodeView');
+      // analytics().setCurrentScreen('scanned-code', 'ScannedCodeView');
     },
   }),
 )(ScannedCodeView);

@@ -44,7 +44,7 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      analytics().setCurrentScreen('history', 'HistoryView');
+      // analytics().setCurrentScreen('history', 'HistoryView');
     },
   }),
 )(HistoryView);

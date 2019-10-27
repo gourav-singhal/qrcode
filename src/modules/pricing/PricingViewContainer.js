@@ -73,7 +73,7 @@ export const enhance = compose(
       try {
         await RNIap.buyProduct(itemSkus);
         props.setLoadingStatus(false);
-        analytics().logEvent('goPro');
+        // analytics().logEvent('goPro');
         props.setIsPro(true);
         props.navigation.pop();
       } catch (e) {
@@ -89,7 +89,7 @@ export const enhance = compose(
   }),
   lifecycle({
     async componentDidMount() {
-      analytics().setCurrentScreen('pricing', 'PricingView');
+      // analytics().setCurrentScreen('pricing', 'PricingView');
       this.props.setLoadingStatus(true);
       // check if products are valid
       // try {

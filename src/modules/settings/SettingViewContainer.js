@@ -15,7 +15,7 @@ export const enhance = compose(
     }),
     dispatch => ({
       setSettingValue: (setting, value) => {
-        analytics().logEvent('toggleSettings', { setting, value });
+        // analytics().logEvent('toggleSettings', { setting, value });
         dispatch(setSettingValue({ setting, value }));
       },
       setIsPro: value => dispatch(setIsPro(value)),
@@ -47,7 +47,7 @@ export const enhance = compose(
   }),
   lifecycle({
     componentDidMount() {
-      analytics().setCurrentScreen('settings', 'SettingsView');
+      // analytics().setCurrentScreen('settings', 'SettingsView');
     },
   }),
 );

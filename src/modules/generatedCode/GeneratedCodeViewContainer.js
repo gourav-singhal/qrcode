@@ -54,10 +54,10 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      analytics().setCurrentScreen('generated', 'GeneratedCodeView');
-      analytics().logEvent('generate', {
-        type: this.props.navigation.getParam('codeType'),
-      });
+      // analytics().setCurrentScreen('generated', 'GeneratedCodeView');
+      // analytics().logEvent('generate', {
+      //   type: this.props.navigation.getParam('codeType'),
+      // });
     },
   }),
 )(GeneratedCodeView);

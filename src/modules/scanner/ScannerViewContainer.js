@@ -100,12 +100,12 @@ export default compose(
           props.playSound();
         }
       }
-      analytics().logEvent('scan');
+      // analytics().logEvent('scan');
     },
   }),
   lifecycle({
     componentDidMount() {
-      analytics().setCurrentScreen('scanner', 'ScannerView');
+      // analytics().setCurrentScreen('scanner', 'ScannerView');
       const { navigation } = this.props;
       navigation.addListener('willFocus', () => {
         InteractionManager.runAfterInteractions(() =>

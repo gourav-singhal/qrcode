@@ -25,7 +25,7 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      analytics().setCurrentScreen('newСode', 'NewCodeView');
+      // analytics().setCurrentScreen('newСode', 'NewCodeView');
     },
   }),
 )(NewCodeView);
