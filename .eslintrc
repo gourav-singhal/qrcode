@@ -1,9 +1,7 @@
 {
-  "extends": ["airbnb"],
+  "extends": ["@react-native-community/eslint-config", "prettier"],
   "plugins": [
     "react",
-    "jsx-a11y",
-    "import"
   ],
   "parser": "babel-eslint",
   "rules": {
@@ -27,6 +25,7 @@
     "react/jsx-one-expression-per-line": "off",
     "react/destructuring-assignment": "off",
     "react/require-default-props": "off",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "react-native/no-inline-styles": "off"
   }
 }

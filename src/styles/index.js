@@ -135,11 +135,6 @@ Assets.loadAssetsGroup('tabbar-icons', {
   'settings-active': require('../../assets/icons/tabbar/settings-active.png'),
 });
 
-const scale = (size: number): number => width / guidelineBaseWidth * size;
+const scale = (size: number): number => (width / guidelineBaseWidth) * size;
 
-export {
-  colors,
-  fonts,
-  scale,
-  commonStyles,
-};
+export { colors, fonts, scale, commonStyles };

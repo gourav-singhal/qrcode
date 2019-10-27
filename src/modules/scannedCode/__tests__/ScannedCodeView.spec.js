@@ -1,5 +1,3 @@
-
-/* eslint-disable no-undef */
 import React from 'react';
 import { Linking } from 'react-native';
 import sinon from 'sinon';
@@ -17,13 +15,15 @@ import {
 import ScannedCode from '../ScannedCodeViewContainer';
 import { store } from '../../../redux/store';
 
-jest.mock('Linking', () => ({
-  openURL: jest.fn(),
-  canOpenURL: valid => (new Promise(resolve => (valid ? resolve(true) : resolve(false)))),
-}));
-
-jest.mock('Clipboard', () => ({
-  setString: jest.fn(),
+jest.mock('react-native', () => ({
+  Linking: {
+    openURL: jest.fn(),
+    canOpenURL: valid =>
+      new Promise(resolve => (valid ? resolve(true) : resolve(false))),
+  },
+  Clipboard: {
+    setString: jest.fn(),
+  },
 }));
 
 describe('ScannedCode => CustomInput', () => {
@@ -61,7 +61,10 @@ describe('ScannedCode => CustomInput', () => {
     );
 
     const render = wrapper.dive();
-    render.find('TouchableOpacity').first().simulate('press');
+    render
+      .find('TouchableOpacity')
+      .first()
+      .simulate('press');
     expect(clipboardSetStringSpy.calledWith('string')).toBe(true);
   });
 });
@@ -69,9 +72,7 @@ describe('ScannedCode => CustomInput', () => {
 describe('ScannedCode => ShareButton', () => {
   it('renders as expected', () => {
     const wrapper = Enzyme.shallow(
-      <ShareButton
-        data="https://insiderdev.com"
-      />,
+      <ShareButton data="https://insiderdev.com" />,
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -80,9 +81,7 @@ describe('ScannedCode => ShareButton', () => {
 describe('ScannedCode => CopyButton', () => {
   it('renders as expected', () => {
     const wrapper = Enzyme.shallow(
-      <CopyButton
-        data="https://insiderdev.com"
-      />,
+      <CopyButton data="https://insiderdev.com" />,
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -91,9 +90,7 @@ describe('ScannedCode => CopyButton', () => {
 describe('ScannedCode => OpenButton', () => {
   it('renders as expected', () => {
     const wrapper = Enzyme.shallow(
-      <OpenButton
-        data="https://insiderdev.com"
-      />,
+      <OpenButton data="https://insiderdev.com" />,
     );
     expect(wrapper).toMatchSnapshot();
   });

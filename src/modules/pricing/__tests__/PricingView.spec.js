@@ -1,13 +1,11 @@
-/* eslint-disable */
 import React from 'react';
+import TestRenderer from 'react-test-renderer';
+
 import PricingView from '../PricingView';
-import { shallow } from 'enzyme/build';
 
 describe('Pricing View', () => {
   it('should render properly', () => {
-    const wrapper = shallow(
-      <PricingView />,
-    );
-    expect(wrapper).toMatchSnapshot();
-  })
+    const wrapper = TestRenderer.create(<PricingView />);
+    expect(wrapper.toJSON()).toMatchSnapshot();
+  });
 });

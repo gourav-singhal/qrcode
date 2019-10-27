@@ -9,7 +9,8 @@ type HistoryState = {
 };
 
 type Action = {
-  type: string, payload: any,
+  type: string,
+  payload: any,
 };
 
 const initialState: HistoryState = {
@@ -21,7 +22,9 @@ export const REMOVE_ITEM_FROM_HISTORY = 'REMOVE_ITEM_FROM_HISTORY';
 export const CLEAR_HISTORY = 'CLEAR_HISTORY';
 
 export function addItemToHistory(scannedCode: { data: string }): Action {
-  const id = Math.random().toString(36).substr(2, 9);
+  const id = Math.random()
+    .toString(36)
+    .substr(2, 9);
   const date = new Date();
   return {
     type: ADD_ITEM_TO_HISTORY,
@@ -42,7 +45,10 @@ export function clearHistory() {
   };
 }
 
-export default function HistoryReducer(state: HistoryState = initialState, action: Action): HistoryState {
+export default function HistoryReducer(
+  state: HistoryState = initialState,
+  action: Action,
+): HistoryState {
   switch (action.type) {
     case ADD_ITEM_TO_HISTORY:
       return {
@@ -52,9 +58,7 @@ export default function HistoryReducer(state: HistoryState = initialState, actio
     case REMOVE_ITEM_FROM_HISTORY:
       return {
         ...state,
-        items: [
-          ...state.items.filter(item => item.id !== action.payload),
-        ],
+        items: [...state.items.filter(item => item.id !== action.payload)],
       };
     case CLEAR_HISTORY:
       return {

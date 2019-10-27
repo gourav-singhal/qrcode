@@ -1,4 +1,3 @@
-/* eslint-disable */
 import 'jsdom-global/register';
 import React from 'react';
 import { toClass } from 'recompose';
@@ -9,13 +8,20 @@ import { mount } from 'enzyme/build';
 import { initialState } from '../SettingsState';
 
 describe('Settings View Container', () => {
-  let wrapper, instance, mockFunction = jest.fn();
+  let wrapper,
+    instance,
+    mockFunction = jest.fn();
 
-  beforeEach(function () {
-    const ComponentClass = toClass(() => <div>component</div>)
-    const EnhancedComponent = enhance(ComponentClass)
+  beforeEach(function() {
+    const ComponentClass = toClass(() => <div>component</div>);
+    const EnhancedComponent = enhance(ComponentClass);
 
-    wrapper = mount(<EnhancedComponent store={store} navigation={{ navigate:  mockFunction }} />);
+    wrapper = mount(
+      <EnhancedComponent
+        store={store}
+        navigation={{ navigate: mockFunction }}
+      />,
+    );
     instance = wrapper.find(ComponentClass);
   });
 
@@ -29,7 +35,7 @@ describe('Settings View Container', () => {
     expect(instance.props()).toHaveProperty('settings', initialState);
     expect(instance.props()).toHaveProperty('toggleBackgroundColorModal');
     expect(instance.props()).toHaveProperty('toggleForegroundColorModal');
-  })
+  });
 
   it('should handle ToggleModal call', () => {
     instance.props().toggleBackgroundColorModal();
@@ -43,7 +49,7 @@ describe('Settings View Container', () => {
 
     instance.props().toggleForegroundColorModal();
     expect(instance.instance().props.isForegroundModalVisible).toBe(false);
-  })
+  });
 
   it('should handle ColorPick call', () => {
     instance.props().handleBackgroundColorPick('#000000');
@@ -51,12 +57,12 @@ describe('Settings View Container', () => {
 
     instance.props().handleForegroundColorPick('#ffffff');
     expect(instance.instance().props.settings.foregroundColor).toBe('#ffffff');
-  })
+  });
 
   it('should handle goPricingPage call', () => {
     instance.props().goPricingPage();
 
     expect(mockFunction.mock.calls.length).toBe(1);
     expect(mockFunction.mock.calls[0][0]).toBe('Pricing');
-  })
+  });
 });

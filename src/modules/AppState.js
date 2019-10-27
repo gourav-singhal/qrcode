@@ -29,7 +29,10 @@ export function setIsPro(pro: boolean): ActionType {
   };
 }
 
-export default function AppStateReducer(state: AppStateType = initialState, action: ActionType): AppStateType {
+export default function AppStateReducer(
+  state: AppStateType = initialState,
+  action: ActionType,
+): AppStateType {
   switch (action.type) {
     case SET_FIRST_OPEN:
       return {

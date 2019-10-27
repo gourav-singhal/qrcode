@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Reducer, {
   addItemToHistory,
   removeItemFromHistory,
@@ -10,7 +9,10 @@ import Reducer, {
 
 describe('HistoryState Actions', () => {
   it('should call addItemToHistory as expected', () => {
-    expect(addItemToHistory({ data: 'qrcode' })).toHaveProperty('type', ADD_ITEM_TO_HISTORY);
+    expect(addItemToHistory({ data: 'qrcode' })).toHaveProperty(
+      'type',
+      ADD_ITEM_TO_HISTORY,
+    );
     expect(addItemToHistory({ data: 'qrcode' })).toHaveProperty('payload');
 
     const { payload } = addItemToHistory({ data: 'qrcode' });
@@ -20,17 +22,20 @@ describe('HistoryState Actions', () => {
   });
 
   it('should call removeItemFromHistory as expected', () => {
-    expect(removeItemFromHistory(1)).toHaveProperty('type', REMOVE_ITEM_FROM_HISTORY);
+    expect(removeItemFromHistory(1)).toHaveProperty(
+      'type',
+      REMOVE_ITEM_FROM_HISTORY,
+    );
     expect(removeItemFromHistory(1)).toHaveProperty('payload');
 
     const { payload } = removeItemFromHistory(1);
     expect(payload).toBe(1);
-  })
+  });
 
   it('should call clearHistory as expected', () => {
     expect(clearHistory()).toHaveProperty('type', CLEAR_HISTORY);
     expect(clearHistory()).not.toHaveProperty('payload');
-  })
+  });
 });
 
 describe('HistoryState Reducer', () => {
@@ -39,7 +44,10 @@ describe('HistoryState Reducer', () => {
   });
 
   it('should handle addItemToHistory action', () => {
-    const newState = Reducer({ items: [] }, addItemToHistory({ data: 'qrcode'}));
+    const newState = Reducer(
+      { items: [] },
+      addItemToHistory({ data: 'qrcode' }),
+    );
 
     expect(newState.items.length).toBe(1);
     expect(newState.items[0]).toHaveProperty('data');
@@ -48,8 +56,14 @@ describe('HistoryState Reducer', () => {
   });
 
   it('should handle removeItemFromHistory action', () => {
-    const prevState = Reducer({ items: [] }, addItemToHistory({ data: 'qrcode'}));
-    const newState = Reducer(prevState, removeItemFromHistory(prevState.items[0].id));
+    const prevState = Reducer(
+      { items: [] },
+      addItemToHistory({ data: 'qrcode' }),
+    );
+    const newState = Reducer(
+      prevState,
+      removeItemFromHistory(prevState.items[0].id),
+    );
 
     expect(newState.items.length).toBe(0);
   });
@@ -61,7 +75,10 @@ describe('HistoryState Reducer', () => {
   });
 
   it('should not handle random action', () => {
-    const newState = Reducer({ items: [] }, { type: 'RANDOM_TYPE', payload: 'random_payload' });
+    const newState = Reducer(
+      { items: [] },
+      { type: 'RANDOM_TYPE', payload: 'random_payload' },
+    );
 
     expect(newState).toEqual({ items: [] });
   });

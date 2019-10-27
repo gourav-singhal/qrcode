@@ -15,11 +15,13 @@ type ButtonProps = {
   radius?: number,
   textColor?: string,
   testID?: string,
-}
+};
 
 const Button = (props: ButtonProps) => {
   const variant = colors[props.variant];
-  const gradient = !variant ? [colors.primaryGradientStart, colors.primaryGradientEnd] : [variant, variant];
+  const gradient = !variant
+    ? [colors.primaryGradientStart, colors.primaryGradientEnd]
+    : [variant, variant];
   return (
     <TouchableOpacity
       testID={props.testID}
@@ -42,19 +44,19 @@ const Button = (props: ButtonProps) => {
           props.style,
         ]}
       >
-        {typeof props.children === 'string'
-          ? (
-            <Text
-              h2
-              style={[
-                styles.buttonText,
-                props.textColor && { color: colors[props.textColor] },
-              ]}
-            >
-              {props.children}
-            </Text>)
-          : props.children
-        }
+        {typeof props.children === 'string' ? (
+          <Text
+            h2
+            style={[
+              styles.buttonText,
+              props.textColor && { color: colors[props.textColor] },
+            ]}
+          >
+            {props.children}
+          </Text>
+        ) : (
+          props.children
+        )}
       </LinearGradient>
     </TouchableOpacity>
   );

@@ -1,9 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
-import {
-  compose, withStateHandlers, withHandlers, lifecycle,
-} from 'recompose';
-import firebase from 'react-native-firebase';
+import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
+import analytics from '@react-native-firebase/analytics';
 
 import { setIsPro } from '../AppState';
 import { setSettingValue } from './SettingsState';
@@ -17,7 +15,7 @@ export const enhance = compose(
     }),
     dispatch => ({
       setSettingValue: (setting, value) => {
-        firebase.analytics().logEvent('toggleSettings', { setting, value });
+        analytics().logEvent('toggleSettings', { setting, value });
         dispatch(setSettingValue({ setting, value }));
       },
       setIsPro: value => dispatch(setIsPro(value)),
@@ -38,18 +36,18 @@ export const enhance = compose(
     goPricingPage: props => () => {
       props.navigation.navigate('Pricing');
     },
-    handleBackgroundColorPick: props => (color) => {
+    handleBackgroundColorPick: props => color => {
       props.setSettingValue('backgroundColor', color);
       props.toggleBackgroundColorModal();
     },
-    handleForegroundColorPick: props => (color) => {
+    handleForegroundColorPick: props => color => {
       props.setSettingValue('foregroundColor', color);
       props.toggleForegroundColorModal();
     },
   }),
   lifecycle({
     componentDidMount() {
-      firebase.analytics().setCurrentScreen('settings', 'SettingsView');
+      analytics().setCurrentScreen('settings', 'SettingsView');
     },
   }),
 );

@@ -5,28 +5,24 @@ import {
   PermissionsAndroid,
   ToastAndroid,
 } from 'react-native';
-import {
-  compose, withState, withHandlers, lifecycle,
-} from 'recompose';
+import { compose, withState, withHandlers, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import RNCalendarEvents from 'react-native-calendar-events';
 import Contacts from 'react-native-contacts';
 import moment from 'moment';
 
-import firebase from 'react-native-firebase';
+import analytics from '@react-native-firebase/analytics';
 import ScannedCodeView from './ScannedCodeView';
 import i18n from '../../translations';
 
 export default compose(
-  connect(
-    state => ({
-      isPro: state.app.isPro,
-    }),
-  ),
+  connect(state => ({
+    isPro: state.app.isPro,
+  })),
   withState('toastRef', 'setToastRef', null),
   withHandlers({
-    addToContactsAction: () => (contact) => {
-      Contacts.addContact(contact, (addErr) => {
+    addToContactsAction: () => contact => {
+      Contacts.addContact(contact, addErr => {
         if (addErr) {
           return Alert.alert(
             i18n.t('screens.pricing.wrongAlert.title'),
@@ -47,9 +43,12 @@ export default compose(
       props.navigation.navigate('Pricing');
     },
     goGeneratedCodePage: props => () => {
-      props.navigation.navigate('GeneratedCode', { raw: true, data: props.navigation.state.params.data });
+      props.navigation.navigate('GeneratedCode', {
+        raw: true,
+        data: props.navigation.state.params.data,
+      });
     },
-    addToCalendar: () => async (fieldsDict) => {
+    addToCalendar: () => async fieldsDict => {
       const details = {
         description: fieldsDict.description,
         location: fieldsDict.location,
@@ -61,7 +60,9 @@ export default compose(
         const status = await RNCalendarEvents.authorizeEventStore();
         if (status === 'authorized' && Platform.OS === 'android') {
           const calendars = await RNCalendarEvents.findCalendars();
-          details.calendarId = calendars.find(calendar => calendar.isPrimary).id;
+          details.calendarId = calendars.find(
+            calendar => calendar.isPrimary,
+          ).id;
         }
         const id = await RNCalendarEvents.saveEvent(fieldsDict.title, details);
 
@@ -86,22 +87,30 @@ export default compose(
         );
       }
     },
-    addToContacts: props => async (fieldsDict) => {
+    addToContacts: props => async fieldsDict => {
       const contact = {
         familyName: fieldsDict.surname,
         givenName: fieldsDict.name,
-        ...fieldsDict.email ? {
-          emailAddresses: [{
-            label: 'Home',
-            email: fieldsDict.email,
-          }],
-        } : {},
-        ...fieldsDict.phone ? {
-          phoneNumbers: [{
-            label: 'Home',
-            number: fieldsDict.phone,
-          }],
-        } : {},
+        ...(fieldsDict.email
+          ? {
+              emailAddresses: [
+                {
+                  label: 'Home',
+                  email: fieldsDict.email,
+                },
+              ],
+            }
+          : {}),
+        ...(fieldsDict.phone
+          ? {
+              phoneNumbers: [
+                {
+                  label: 'Home',
+                  number: fieldsDict.phone,
+                },
+              ],
+            }
+          : {}),
       };
       // iOS
       if (Platform.OS === 'ios') {
@@ -131,7 +140,9 @@ export default compose(
             PermissionsAndroid.PERMISSIONS.WRITE_CONTACTS,
             {
               title: i18n.t('screens.scanned.contactPermissionsAlert.title'),
-              message: i18n.t('screens.scanned.contactPermissionsAlert.message'),
+              message: i18n.t(
+                'screens.scanned.contactPermissionsAlert.message',
+              ),
             },
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -155,7 +166,8 @@ export default compose(
     copyToClipboard: props => (data: string) => {
       Clipboard.setString(data);
       if (Platform.OS === 'ios') {
-        if (props.toastRef) props.toastRef.show(i18n.t('screens.scanned.copied'));
+        if (props.toastRef)
+          props.toastRef.show(i18n.t('screens.scanned.copied'));
       } else {
         ToastAndroid.show(i18n.t('screens.scanned.copied'), ToastAndroid.SHORT);
       }
@@ -163,7 +175,7 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      firebase.analytics().setCurrentScreen('scanned-code', 'ScannedCodeView');
+      analytics().setCurrentScreen('scanned-code', 'ScannedCodeView');
     },
   }),
 )(ScannedCodeView);

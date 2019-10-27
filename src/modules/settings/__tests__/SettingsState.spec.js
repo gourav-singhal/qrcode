@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Reducer, {
   initialState,
   setSettingValue,
@@ -32,7 +31,10 @@ describe('SettingsState Reducer', () => {
   });
 
   it('should not handle random action', () => {
-    const newState = Reducer(initialState, { type: 'RANDOM_TYPE', payload: 'random_payload' });
+    const newState = Reducer(initialState, {
+      type: 'RANDOM_TYPE',
+      payload: 'random_payload',
+    });
 
     expect(newState).toEqual(initialState);
   });

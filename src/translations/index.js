@@ -1,17 +1,19 @@
-import RNLanguages from 'react-native-languages';
+import * as RNLocalize from 'react-native-localize';
 import i18n from 'i18n-js';
 
-import en from './en.json';
-import ptbr from './ptbr.json';
-import de from './de.json';
-
-
-i18n.locale = RNLanguages.language;
-i18n.fallbacks = true;
-i18n.translations = {
-  en,
-  de,
-  'pt-BR': ptbr,
+const translationGetters = {
+  // lazy requires (metro bundler does not support symlinks)
+  en: () => require('./en.json'),
+  ptbr: () => require('./ptbr.json'),
+  de: () => require('./de.json'),
 };
+
+const fallback = { languageTag: 'en', isRTL: false };
+const { languageTag } =
+  RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
+  fallback;
+
+i18n.locale = languageTag;
+i18n.translations = { [languageTag]: translationGetters[languageTag]() };
 
 export default i18n;

@@ -1,7 +1,6 @@
-/* eslint-disable */
 import React from 'react';
 import HistoryView from '../HistoryView';
-import { shallow } from 'enzyme/build';
+import TestRenderer from 'react-test-renderer';
 import moment from 'moment-timezone';
 
 describe('History View', () => {
@@ -11,15 +10,13 @@ describe('History View', () => {
       navigation: {
         navigate: () => {},
       },
-      items: [{ id: 1, data: 'qrcode', date: moment("2017-09-15 09:30:00") }],
+      items: [{ id: 1, data: 'qrcode', date: moment('2017-09-15 09:30:00') }],
       removeItemFromHistory: () => {},
     };
 
-    const wrapper = shallow(
-      <HistoryView {...props} />,
-    );
-    expect(wrapper).toMatchSnapshot();
-  })
+    const wrapper = TestRenderer.create(<HistoryView {...props} />);
+    expect(wrapper.toJSON()).toMatchSnapshot();
+  });
 
   it('should render without items', () => {
     const props = {
@@ -30,9 +27,7 @@ describe('History View', () => {
       removeItemFromHistory: () => {},
     };
 
-    const wrapper = shallow(
-      <HistoryView {...props} />,
-    );
-    expect(wrapper).toMatchSnapshot();
-  })
+    const wrapper = TestRenderer.create(<HistoryView {...props} />);
+    expect(wrapper.toJSON()).toMatchSnapshot();
+  });
 });

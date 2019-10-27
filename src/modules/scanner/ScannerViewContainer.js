@@ -1,11 +1,9 @@
 import { Vibration, InteractionManager, Platform } from 'react-native';
-import {
-  compose, withState, withHandlers, lifecycle,
-} from 'recompose';
+import { compose, withState, withHandlers, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Sound from 'react-native-sound';
-import firebase from 'react-native-firebase';
+import analytics from '@react-native-firebase/analytics';
 
 import { addItemToHistory } from '../history/HistoryState';
 
@@ -28,9 +26,8 @@ export default compose(
   withState('lastScannedCode', 'setLastScannedCode', null),
   withHandlers({
     playSound: () => () => {
-      const beep = new Sound('beep.wav', Sound.MAIN_BUNDLE, (error) => {
+      const beep = new Sound('beep.wav', Sound.MAIN_BUNDLE, error => {
         if (error) {
-          // eslint-disable-next-line
           console.log('failed to load the sound');
         } else {
           beep.play();
@@ -46,18 +43,22 @@ export default compose(
       data?: string,
       barcodes?: Array<{
         data: string,
-      }>
+      }>,
     }) => {
-      const selectorIndex = Platform.select({ ios: 'data', android: 'rawValue' });
+      const selectorIndex = Platform.select({
+        ios: 'data',
+        android: 'data',
+      });
+
+      // This code was used for Android google vision
       if (codeData.barcodes) {
         // I'm so sorry about the next line...
-        // eslint-disable-next-line no-param-reassign
         codeData = { data: _.get(codeData, `barcodes.0.${selectorIndex}`, '') };
       }
       if (Platform.OS === 'android' && codeData.rawValue) {
-        // eslint-disable-next-line no-param-reassign
         codeData = { data: codeData.rawValue };
       }
+
       if (props.lastScannedCode === codeData.data) return;
       props.setLastScannedCode(codeData.data);
       setTimeout(() => {
@@ -83,7 +84,9 @@ export default compose(
             props.addItemToHistory(codeData);
             props.navigation.navigate('ScannedCode', codeData);
           } else {
-            const notInHistory = !props.history.find(item => item.data === codeData.data);
+            const notInHistory = !props.history.find(
+              item => item.data === codeData.data,
+            );
             if (notInHistory) {
               props.addItemToHistory(codeData);
               props.navigation.navigate('ScannedCode', codeData);
@@ -97,18 +100,22 @@ export default compose(
           props.playSound();
         }
       }
-      firebase.analytics().logEvent('scan');
+      analytics().logEvent('scan');
     },
   }),
   lifecycle({
     componentDidMount() {
-      firebase.analytics().setCurrentScreen('scanner', 'ScannerView');
+      analytics().setCurrentScreen('scanner', 'ScannerView');
       const { navigation } = this.props;
       navigation.addListener('willFocus', () => {
-        InteractionManager.runAfterInteractions(() => this.props.setFocusedScreen(true));
+        InteractionManager.runAfterInteractions(() =>
+          this.props.setFocusedScreen(true),
+        );
       });
       navigation.addListener('willBlur', () => {
-        InteractionManager.runAfterInteractions(() => this.props.setFocusedScreen(false));
+        InteractionManager.runAfterInteractions(() =>
+          this.props.setFocusedScreen(false),
+        );
       });
     },
   }),

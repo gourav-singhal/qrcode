@@ -10,11 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {
-  View,
-  Text,
-  Image,
-} from 'react-native-ui-lib';
+import { View, Text, Image } from 'react-native-ui-lib';
 
 import GeneratingForm from './CodeGeneratingFormComponent';
 import { codeTypesList } from './NewCodeState';
@@ -25,11 +21,11 @@ import i18n from '../../translations';
 
 type Props = {
   navigation: {
-    navigate: (string) => void,
+    navigate: string => void,
   },
   activeCodeType: string,
-  updateField: (string) => void,
-  changeCodeType: (string) => void,
+  updateField: string => void,
+  changeCodeType: string => void,
   isPro: boolean,
 };
 
@@ -40,29 +36,40 @@ export const codeTypes = [
   { id: 3, label: codeTypesList.TEL, icon: 'phone' },
   { id: 5, label: codeTypesList.SMS, icon: 'sms' },
   {
-    id: 4, label: codeTypesList.CONTACT, icon: 'contact', proOnly: true,
+    id: 4,
+    label: codeTypesList.CONTACT,
+    icon: 'contact',
+    proOnly: true,
   },
   {
-    id: 6, label: codeTypesList.GEO, icon: 'geo', proOnly: true,
+    id: 6,
+    label: codeTypesList.GEO,
+    icon: 'geo',
+    proOnly: true,
   },
   {
-    id: 7, label: codeTypesList.EVENT, icon: 'event', proOnly: true,
+    id: 7,
+    label: codeTypesList.EVENT,
+    icon: 'event',
+    proOnly: true,
   },
   {
-    id: 8, label: codeTypesList.WIFI, icon: 'wifi', proOnly: true,
+    id: 8,
+    label: codeTypesList.WIFI,
+    icon: 'wifi',
+    proOnly: true,
   },
 ];
 
 export default function NewCodeView(props: Props) {
   return (
     <SafeAreaView style={[commonStyles.safeArea, styles.viewContainer]}>
-      <StatusBar
-        translucent={false}
-        backgroundColor={colors.lightBlue}
-      />
+      <StatusBar translucent={false} backgroundColor={colors.lightBlue} />
       <View centerH marginB-25 marginT-10>
         <Text h1 darkBlue testID="label:generate-code">
-          {i18n.t('screens.generate.title', { defaultValue: i18n.t('tabs.generate') })}
+          {i18n.t('screens.generate.title', {
+            defaultValue: i18n.t('tabs.generate'),
+          })}
         </Text>
       </View>
       <ScrollView
@@ -75,9 +82,10 @@ export default function NewCodeView(props: Props) {
           <TouchableOpacity
             testID={`button:codeType-${codeType.label}`}
             key={codeType.id}
-            onPress={!props.isPro && codeType.proOnly
-              ? () => props.navigation.navigate('Pricing')
-              : () => props.changeCodeType(codeType.label)
+            onPress={
+              !props.isPro && codeType.proOnly
+                ? () => props.navigation.navigate('Pricing')
+                : () => props.changeCodeType(codeType.label)
             }
             style={[
               styles.typeContainer,
@@ -89,11 +97,29 @@ export default function NewCodeView(props: Props) {
           >
             <Image
               assetGroup="types"
-              assetName={codeType.label !== props.activeCodeType ? codeType.icon : `${codeType.icon}-white`}
+              assetName={
+                codeType.label !== props.activeCodeType
+                  ? codeType.icon
+                  : `${codeType.icon}-white`
+              }
             />
-            <Text center h3 lightBlue marginT-5 white={codeType.label === props.activeCodeType}>{codeType.label}</Text>
+            <Text
+              center
+              h3
+              lightBlue
+              marginT-5
+              white={codeType.label === props.activeCodeType}
+            >
+              {codeType.label}
+            </Text>
             {codeType.proOnly && !props.isPro && (
-              <View style={styles.proLabel} paddingH-3 paddingV-1 marginB-4 marginL-5>
+              <View
+                style={styles.proLabel}
+                paddingH-3
+                paddingV-1
+                marginB-4
+                marginL-5
+              >
                 <Text white>{i18n.t('other.pro')}</Text>
               </View>
             )}
@@ -109,7 +135,11 @@ export default function NewCodeView(props: Props) {
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <TouchableWithoutFeedback style={{ flex: 1 }} testID="touchable:hideKeyboard" onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback
+          style={{ flex: 1 }}
+          testID="touchable:hideKeyboard"
+          onPress={Keyboard.dismiss}
+        >
           <View flex-1 style={styles.formWrapper}>
             <View>
               <GeneratingForm
@@ -123,10 +153,12 @@ export default function NewCodeView(props: Props) {
       </KeyboardAwareScrollView>
       <Button
         testID="button:generate"
-        onPress={() => props.navigation.navigate(
-          'GeneratedCode',
-          { codeType: props.activeCodeType, fieldValues: props.fieldValues },
-        )}
+        onPress={() =>
+          props.navigation.navigate('GeneratedCode', {
+            codeType: props.activeCodeType,
+            fieldValues: props.fieldValues,
+          })
+        }
         radius={5}
         style={{
           marginBottom: 15,

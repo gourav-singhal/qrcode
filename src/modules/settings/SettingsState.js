@@ -13,7 +13,8 @@ type SettingsState = {
 };
 
 type Action = {
-  type: string, payload: any,
+  type: string,
+  payload: any,
 };
 
 export const initialState: SettingsState = {
@@ -33,7 +34,10 @@ export function setSettingValue(data: { setting: string, value: any }) {
   };
 }
 
-export default function SettingsReducer(state: SettingsState = initialState, action: Action): SettingsState {
+export default function SettingsReducer(
+  state: SettingsState = initialState,
+  action: Action,
+): SettingsState {
   switch (action.type) {
     case SET_SETTING_VALUE:
       if (action.payload.setting === 'batch' && action.payload.value === true) {

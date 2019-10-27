@@ -1,160 +1,234 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Picker Component renders as expected on datetime 1`] = `
-ShallowWrapper {
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <withState(withState(withHandlers(withHandlers(PickerComponent))))
-    placeholder="hello"
-    type="datetime"
-  />,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateError": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "class",
-    "props": Object {
-      "inputValue": "",
-      "placeholder": "hello",
-      "setInputValue": [Function],
-      "type": "datetime",
-    },
-    "ref": null,
-    "rendered": null,
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "class",
-      "props": Object {
-        "inputValue": "",
-        "placeholder": "hello",
-        "setInputValue": [Function],
-        "type": "datetime",
-      },
-      "ref": null,
-      "rendered": null,
-      "type": [Function],
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-        "lifecycles": Object {
-          "componentDidUpdate": Object {
-            "onSetState": true,
-          },
-          "getDerivedStateFromProps": true,
-          "getSnapshotBeforeUpdate": true,
-          "setState": Object {
-            "skipsComponentDidUpdateOnNullish": true,
-          },
-        },
-      },
-    },
-  },
-}
-`;
-
 exports[`Picker Component renders as expected on picker 1`] = `
-ShallowWrapper {
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <withState(withState(withHandlers(withHandlers(PickerComponent))))
-    items={
+<View
+  style={
+    Array [
+      undefined,
+      undefined,
+      undefined,
+      Object {},
+      Object {},
+      Object {},
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
       Array [
-        Object {
-          "id": 1,
-          "label": "hello",
-        },
-        Object {
-          "id": 2,
-          "label": "man",
-        },
+        undefined,
+        undefined,
+        undefined,
+        Object {},
+        Object {},
+        Object {},
+        undefined,
       ]
     }
-    type="picker"
-  />,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateError": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "class",
-    "props": Object {
-      "inputValue": "",
-      "items": Array [
-        Object {
-          "id": 1,
-          "label": "hello",
-        },
-        Object {
-          "id": 2,
-          "label": "man",
-        },
-      ],
-      "setInputValue": [Function],
-      "type": "picker",
-    },
-    "ref": null,
-    "rendered": null,
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "class",
-      "props": Object {
-        "inputValue": "",
-        "items": Array [
+  >
+    <TextInput
+      allowFontScaling={true}
+      onFocus={[Function]}
+      placeholder="Value"
+      rejectResponderTermination={true}
+      style={
+        Array [
           Object {
-            "id": 1,
-            "label": "hello",
+            "backgroundColor": "#FFFFFF",
+            "borderRadius": 5,
+            "color": "#626262",
+            "flexGrow": 1,
+            "marginBottom": 15,
+            "padding": 20,
+            "shadowColor": "#2E374D",
+            "shadowOffset": Object {
+              "height": 0,
+              "width": 0,
+            },
+            "shadowOpacity": 0.22,
+            "shadowRadius": 2.22,
           },
-          Object {
-            "id": 2,
-            "label": "man",
-          },
-        ],
-        "setInputValue": [Function],
-        "type": "picker",
-      },
-      "ref": null,
-      "rendered": null,
-      "type": [Function],
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-        "lifecycles": Object {
-          "componentDidUpdate": Object {
-            "onSetState": true,
-          },
-          "getDerivedStateFromProps": true,
-          "getSnapshotBeforeUpdate": true,
-          "setState": Object {
-            "skipsComponentDidUpdateOnNullish": true,
-          },
-        },
-      },
-    },
-  },
-}
+          undefined,
+          undefined,
+        ]
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <Modal
+      animationType="slide"
+      hardwareAccelerated={false}
+      transparent={false}
+      visible={false}
+    >
+      <View
+        centerV={true}
+        flex-1={true}
+        paddingH-15={true}
+        style={
+          Array [
+            undefined,
+            undefined,
+            Object {
+              "flex": 1,
+            },
+            Object {
+              "paddingHorizontal": 15,
+            },
+            Object {},
+            Object {
+              "justifyContent": "center",
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          h2={true}
+          marginB-20={true}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "transparent",
+                "textAlign": "left",
+              },
+              Object {
+                "fontFamily": "Muli-SemiBold",
+                "fontSize": 18,
+                "lineHeight": 22,
+              },
+              undefined,
+              Object {
+                "marginBottom": 20,
+              },
+              Object {
+                "textAlign": "center",
+              },
+              undefined,
+            ]
+          }
+        />
+        <View>
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "hello",
+                  "textColor": undefined,
+                  "value": undefined,
+                },
+                Object {
+                  "label": "man",
+                  "textColor": undefined,
+                  "value": undefined,
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={0}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                undefined,
+              ]
+            }
+          />
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          isTVSelectable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+              "shadowColor": "#FC6821",
+              "shadowOffset": Object {
+                "height": 1,
+                "width": 0,
+              },
+              "shadowOpacity": 0.22,
+              "shadowRadius": 2.22,
+            }
+          }
+        >
+          <BVLinearGradient
+            colors={
+              Array [
+                4294947695,
+                4294933308,
+              ]
+            }
+            endPoint={
+              Object {
+                "x": 1,
+                "y": 0,
+              }
+            }
+            locations={null}
+            startPoint={
+              Object {
+                "x": 0,
+                "y": 1,
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "borderRadius": 50,
+                  "elevation": 1,
+                  "padding": 20,
+                },
+                undefined,
+                Object {
+                  "marginTop": 20,
+                },
+              ]
+            }
+          >
+            <Text
+              h2={true}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "textAlign": "left",
+                  },
+                  Object {
+                    "fontFamily": "Muli-SemiBold",
+                    "fontSize": 18,
+                    "lineHeight": 22,
+                  },
+                  undefined,
+                  Object {},
+                  undefined,
+                  Array [
+                    Object {
+                      "color": "#FFFFFF",
+                      "textAlign": "center",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              Save
+            </Text>
+          </BVLinearGradient>
+        </View>
+      </View>
+    </Modal>
+  </View>
+</View>
 `;

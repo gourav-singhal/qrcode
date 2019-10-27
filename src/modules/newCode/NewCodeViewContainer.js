@@ -1,18 +1,14 @@
 import { connect } from 'react-redux';
-import {
-  compose, withState, withHandlers, lifecycle,
-} from 'recompose';
-import firebase from 'react-native-firebase';
+import { compose, withState, withHandlers, lifecycle } from 'recompose';
+import analytics from '@react-native-firebase/analytics';
 
 import { codeTypesList } from './NewCodeState';
 import NewCodeView from './NewCodeView';
 
 export default compose(
-  connect(
-    state => ({
-      isPro: state.app.isPro,
-    }),
-  ),
+  connect(state => ({
+    isPro: state.app.isPro,
+  })),
   withState('activeCodeType', 'setCodeType', codeTypesList.TEXT),
   withState('fieldValues', 'setFielsValues', {}),
   withHandlers({
@@ -22,14 +18,14 @@ export default compose(
         [field]: value,
       });
     },
-    changeCodeType: props => (nextCodeType) => {
+    changeCodeType: props => nextCodeType => {
       props.setCodeType(nextCodeType);
       props.setFielsValues({});
     },
   }),
   lifecycle({
     componentDidMount() {
-      firebase.analytics().setCurrentScreen('newСode', 'NewCodeView');
+      analytics().setCurrentScreen('newСode', 'NewCodeView');
     },
   }),
 )(NewCodeView);

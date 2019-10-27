@@ -1,10 +1,8 @@
 // @flow
 import { Platform, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase';
-import {
-  compose, withState, withHandlers, lifecycle,
-} from 'recompose';
+import analytics from '@react-native-firebase/analytics';
+import { compose, withState, withHandlers, lifecycle } from 'recompose';
 import * as RNIap from 'react-native-iap';
 
 import i18n from '../../translations';
@@ -32,9 +30,7 @@ export const enhance = compose(
       Alert.alert(
         i18n.t('screens.pricing.wrongAlert.title'),
         i18n.t('screens.pricing.wrongAlert.message'),
-        [
-          { text: i18n.t('screens.pricing.wrongAlert.okButton') },
-        ],
+        [{ text: i18n.t('screens.pricing.wrongAlert.okButton') }],
       );
     },
   }),
@@ -52,7 +48,7 @@ export const enhance = compose(
       props.setLoadingStatus(true);
       try {
         const purchases = await RNIap.getAvailablePurchases();
-        purchases.forEach((purchase) => {
+        purchases.forEach(purchase => {
           if (purchase.productId === itemSkus) {
             props.setIsPro(true);
             props.navigation.pop();
@@ -77,7 +73,7 @@ export const enhance = compose(
       try {
         await RNIap.buyProduct(itemSkus);
         props.setLoadingStatus(false);
-        firebase.analytics().logEvent('goPro');
+        analytics().logEvent('goPro');
         props.setIsPro(true);
         props.navigation.pop();
       } catch (e) {
@@ -93,7 +89,7 @@ export const enhance = compose(
   }),
   lifecycle({
     async componentDidMount() {
-      firebase.analytics().setCurrentScreen('pricing', 'PricingView');
+      analytics().setCurrentScreen('pricing', 'PricingView');
       this.props.setLoadingStatus(true);
       // check if products are valid
       // try {

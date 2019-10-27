@@ -22,16 +22,16 @@ import colors from '../../styles/colors';
 
 type Props = {
   navigation: {
-    navigate: (string) => void,
-    getParam: (string) => any,
+    navigate: string => void,
+    getParam: string => any,
   },
   settings: {
     backgroundColor: string,
     foregroundColor: string,
   },
-  onCapture: (string) => void,
-  updateQrcodeRef: (any) => void,
-  handleShareButtonClick: (any) => void,
+  onCapture: string => void,
+  updateQrcodeRef: any => void,
+  handleShareButtonClick: any => void,
   goPricingPage: () => void,
   toggleBackgroundColorModal: () => void,
   toggleForegroundColorModal: () => void,
@@ -39,8 +39,8 @@ type Props = {
   isForegroundModalVisible: boolean,
   toggleBackgroundColorModal: () => void,
   toggleForegroundColorModal: () => void,
-  handleBackgroundColorPick: (string) => void,
-  handleForegroundColorPick: (string) => void,
+  handleBackgroundColorPick: string => void,
+  handleForegroundColorPick: string => void,
   isPro: boolean,
 };
 
@@ -53,14 +53,23 @@ export default function GeneratedCodeView(props: Props) {
     raw: props.navigation.getParam('raw'),
     data: props.navigation.getParam('data'),
   };
-  const recommendedColors = ['#247ba0', '#70c1b3', '#b2dbbf', '#f3ffbd', '#ff1654'];
+  const recommendedColors = [
+    '#247ba0',
+    '#70c1b3',
+    '#b2dbbf',
+    '#f3ffbd',
+    '#ff1654',
+  ];
   const codeValue = navigationParams.raw
     ? navigationParams.data
     : generateQRValueFromState(navigationParams);
   return (
     <SafeAreaView style={commonStyles.safeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View padding-15 style={{ backgroundColor: props.settings.backgroundColor }}>
+        <View
+          padding-15
+          style={{ backgroundColor: props.settings.backgroundColor }}
+        >
           <QRCode
             testID="view:qrcode"
             value={codeValue.length > 0 ? codeValue : ' '}
@@ -74,42 +83,76 @@ export default function GeneratedCodeView(props: Props) {
           <View marginV-25>
             <View row spread>
               <View row centerV>
-                <Text h2 marginB-5 style={styles.textNormal}>{i18n.t('screens.settings.background')}</Text>
+                <Text h2 marginB-5 style={styles.textNormal}>
+                  {i18n.t('screens.settings.background')}
+                </Text>
                 {!props.isPro && (
-                  <View style={styles.proLabel} paddingH-3 paddingV-1 br20 marginB-4 marginL-5>
-                    <Text default white>Pro</Text>
+                  <View
+                    style={styles.proLabel}
+                    paddingH-3
+                    paddingV-1
+                    br20
+                    marginB-4
+                    marginL-5
+                  >
+                    <Text default white>
+                      Pro
+                    </Text>
                   </View>
                 )}
               </View>
               <TouchableOpacity
-                onPress={!props.isPro ? props.goPricingPage : props.toggleBackgroundColorModal}
+                onPress={
+                  !props.isPro
+                    ? props.goPricingPage
+                    : props.toggleBackgroundColorModal
+                }
                 style={[
                   styles.colorPreview,
                   generateCodePreviewColors(props.settings.backgroundColor),
                 ]}
               />
             </View>
-            <Text defaultLight gray>{i18n.t('screens.settings.backgroundDescription')}</Text>
+            <Text defaultLight gray>
+              {i18n.t('screens.settings.backgroundDescription')}
+            </Text>
           </View>
           <View marginB-10>
             <View row spread>
               <View row centerV>
-                <Text h2 marginB-5 style={styles.textNormal}>{i18n.t('screens.settings.foreground')}</Text>
+                <Text h2 marginB-5 style={styles.textNormal}>
+                  {i18n.t('screens.settings.foreground')}
+                </Text>
                 {!props.isPro && (
-                  <View style={styles.proLabel} paddingH-3 paddingV-1 br20 marginB-4 marginL-5>
-                    <Text default white>Pro</Text>
+                  <View
+                    style={styles.proLabel}
+                    paddingH-3
+                    paddingV-1
+                    br20
+                    marginB-4
+                    marginL-5
+                  >
+                    <Text default white>
+                      Pro
+                    </Text>
                   </View>
                 )}
               </View>
               <TouchableOpacity
-                onPress={!props.isPro ? props.goPricingPage : props.toggleForegroundColorModal}
+                onPress={
+                  !props.isPro
+                    ? props.goPricingPage
+                    : props.toggleForegroundColorModal
+                }
                 style={[
                   styles.colorPreview,
                   generateCodePreviewColors(props.settings.foregroundColor),
                 ]}
               />
             </View>
-            <Text defaultLight gray>{i18n.t('screens.settings.foregroundDescription')}</Text>
+            <Text defaultLight gray>
+              {i18n.t('screens.settings.foregroundDescription')}
+            </Text>
           </View>
         </View>
         <SlidersColorPicker

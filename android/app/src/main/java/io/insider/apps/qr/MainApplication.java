@@ -1,20 +1,12 @@
 package io.insider.apps.qr;
 
 import android.app.Application;
+import android.content.Context;
+import com.facebook.react.PackageList;
 
 import com.facebook.react.ReactApplication;
-import com.reactcommunity.rnlanguages.RNLanguagesPackage;
-import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-import com.calendarevents.CalendarEventsPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.insider.apps.qr.BuildConfig;
-import com.zmxv.RNSound.RNSoundPackage;
-import com.horcrux.svg.SvgPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import cl.json.RNSharePackage;
-import org.reactnative.camera.RNCameraPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -23,6 +15,8 @@ import cl.json.ShareApplication;
 
 import java.util.Arrays;
 import java.util.List;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
 
@@ -34,20 +28,14 @@ public class MainApplication extends Application implements ShareApplication, Re
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNLanguagesPackage(),
-            new ReactNativeContacts(),
-            new CalendarEventsPackage(),
-            new RNFirebasePackage(),
-            new RNSoundPackage(),
-            new SvgPackage(),
-            new LinearGradientPackage(),
-            new RNSharePackage(),
-            new RNCameraPackage(),
-            new RNGestureHandlerPackage(),
-            new RNFirebaseAnalyticsPackage()
-      );
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      // packages.add(new RNFirebaseAnalyticsPackage());
+
+      return packages;
     }
 
     @Override
@@ -65,10 +53,37 @@ public class MainApplication extends Application implements ShareApplication, Re
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    initializeFlipper(this);
   }
 
   @Override
    public String getFileProviderAuthority() {
           return "io.insider.apps.qr";
    }
+
+   /**
+   * Loads Flipper in React Native templates.
+   *
+   * @param context
+   */
+  private static void initializeFlipper(Context context) {
+    if (BuildConfig.DEBUG) {
+      try {
+        /*
+         We use reflection here to pick up the class that initializes Flipper,
+        since Flipper library is not available in release mode
+        */
+        Class<?> aClass = Class.forName("com.facebook.flipper.ReactNativeFlipper");
+        aClass.getMethod("initializeFlipper", Context.class).invoke(null, context);
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (InvocationTargetException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 }

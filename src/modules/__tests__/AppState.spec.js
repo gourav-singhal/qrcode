@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import AppStateReducer, {
   SET_FIRST_OPEN,
   setAppOpened,

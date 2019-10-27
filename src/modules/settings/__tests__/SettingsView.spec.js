@@ -1,7 +1,9 @@
-/* eslint-disable */
 import React from 'react';
-import SettingsView, { SettingSwitch, generateCodePreviewColors } from '../SettingsView';
-import { shallow } from 'enzyme/build';
+import SettingsView, {
+  SettingSwitch,
+  generateCodePreviewColors,
+} from '../SettingsView';
+import TestRenderer from 'react-test-renderer';
 import { colors } from '../../../styles';
 
 describe('Settings View', () => {
@@ -29,11 +31,9 @@ describe('Settings View', () => {
       setSettingValue: () => {},
     };
 
-    const wrapper = shallow(
-      <SettingsView {...props} />,
-    );
-    expect(wrapper).toMatchSnapshot();
-  })
+    const wrapper = TestRenderer.create(<SettingsView {...props} />);
+    expect(wrapper.toJSON()).toMatchSnapshot();
+  });
 });
 
 describe('Setting View => Switch', () => {
@@ -41,30 +41,13 @@ describe('Setting View => Switch', () => {
     const props = {
       value: true,
       onChange: () => {},
-      name: "batch",
+      name: 'batch',
     };
 
-    const wrapper = shallow(
-      <SettingSwitch {...props} />,
-    );
-    expect(wrapper).toMatchSnapshot();
-  })
-
-  it('should render onChange function by click', () => {
-    const mockCallBack = jest.fn();
-    const props = {
-      value: true,
-      onChange: mockCallBack,
-      name: "batch",
-    };
-
-    const wrapper = shallow(
-      <SettingSwitch {...props} />,
-    );
-    wrapper.find('[testID="switch"]').simulate('valueChange');
-    expect(mockCallBack.mock.calls.length).toEqual(1);
-  })
-})
+    const wrapper = TestRenderer.create(<SettingSwitch {...props} />);
+    expect(wrapper.toJSON()).toMatchSnapshot();
+  });
+});
 
 describe('Setting View => generateCodePreviewColors', () => {
   it('should return expected result', () => {
@@ -72,6 +55,6 @@ describe('Setting View => generateCodePreviewColors', () => {
     expect(generateCodePreviewColors(color)).toEqual({
       backgroundColor: color,
       borderColor: colors.lightGray,
-    })
-  })
-})
+    });
+  });
+});

@@ -5,10 +5,10 @@ import AppView from './AppView';
 
 export default compose(
   lifecycle({
-    componentWillMount() {
+    componentDidMount() {
       if (Platform.OS === 'android') {
-        // eslint-disable-next-line no-unused-expressions
-        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+        UIManager.setLayoutAnimationEnabledExperimental &&
+          UIManager.setLayoutAnimationEnabledExperimental(true);
       }
     },
   }),

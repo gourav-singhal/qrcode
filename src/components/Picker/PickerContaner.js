@@ -20,7 +20,6 @@ export default compose(
       Keyboard.dismiss();
       props.setModalState(!props.isModalOpened);
     },
-    // eslint-disable-next-line consistent-return
     openAndroidDatepicker: props => async () => {
       try {
         Keyboard.dismiss();
@@ -34,9 +33,11 @@ export default compose(
           is24Hour: true,
         });
         // $$FlowFixMe
-        if (DatePickerData.action !== DatePickerAndroid.dismissedAction
+        if (
+          DatePickerData.action !== DatePickerAndroid.dismissedAction &&
           // $$FlowFixMe
-          && TimePickerData.action !== TimePickerAndroid.dismissedAction) {
+          TimePickerData.action !== TimePickerAndroid.dismissedAction
+        ) {
           const { year, month, day } = DatePickerData;
           const { hour, minute } = TimePickerData;
           const date = new Date(year, month, day, hour, minute);

@@ -2,7 +2,7 @@
 import { Alert } from 'react-native';
 import { compose, withHandlers, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase';
+import analytics from '@react-native-firebase/analytics';
 import i18n from '../../translations';
 
 import { removeItemFromHistory, clearHistory } from './HistoryState';
@@ -28,8 +28,15 @@ export default compose(
         i18n.t('screens.history.cancelAlert.title'),
         i18n.t('screens.history.cancelAlert.message'),
         [
-          { text: i18n.t('screens.history.cancelAlert.cancelButton'), onPress: () => {}, style: 'cancel' },
-          { text: i18n.t('screens.history.cancelAlert.okButton'), onPress: props.clearHistory },
+          {
+            text: i18n.t('screens.history.cancelAlert.cancelButton'),
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: i18n.t('screens.history.cancelAlert.okButton'),
+            onPress: props.clearHistory,
+          },
         ],
         { cancelable: true },
       );
@@ -37,7 +44,7 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      firebase.analytics().setCurrentScreen('history', 'HistoryView');
+      analytics().setCurrentScreen('history', 'HistoryView');
     },
   }),
 )(HistoryView);

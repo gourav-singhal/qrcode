@@ -1,9 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
-import {
-  compose, withHandlers, withStateHandlers, lifecycle,
-} from 'recompose';
-import firebase from 'react-native-firebase';
+import { compose, withHandlers, withStateHandlers, lifecycle } from 'recompose';
+import analytics from '@react-native-firebase/analytics';
 
 import GeneratedCodeView from './GeneratedCodeView';
 import { setSettingValue } from '../settings/SettingsState';
@@ -15,7 +13,8 @@ export default compose(
       isPro: state.app.isPro,
     }),
     dispatch => ({
-      setSettingValue: (setting, value) => dispatch(setSettingValue({ setting, value })),
+      setSettingValue: (setting, value) =>
+        dispatch(setSettingValue({ setting, value })),
     }),
   ),
   withStateHandlers(
@@ -35,19 +34,19 @@ export default compose(
       goPricingPage: props => () => {
         props.navigation.navigate('Pricing');
       },
-      updateQrcodeRef: () => (ref) => {
+      updateQrcodeRef: () => ref => {
         _qrcodeRef = ref;
       },
-      handleShareButtonClick: () => (shareInstance) => {
-        _qrcodeRef.toDataURL((data) => {
+      handleShareButtonClick: () => shareInstance => {
+        _qrcodeRef.toDataURL(data => {
           shareInstance.open({ url: `data:image/png;base64,${data}` });
         });
       },
-      handleBackgroundColorPick: props => (color) => {
+      handleBackgroundColorPick: props => color => {
         props.setSettingValue('backgroundColor', color);
         props.toggleBackgroundColorModal();
       },
-      handleForegroundColorPick: props => (color) => {
+      handleForegroundColorPick: props => color => {
         props.setSettingValue('foregroundColor', color);
         props.toggleForegroundColorModal();
       },
@@ -55,8 +54,8 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      firebase.analytics().setCurrentScreen('generated', 'GeneratedCodeView');
-      firebase.analytics().logEvent('generate', {
+      analytics().setCurrentScreen('generated', 'GeneratedCodeView');
+      analytics().logEvent('generate', {
         type: this.props.navigation.getParam('codeType'),
       });
     },

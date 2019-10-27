@@ -11,11 +11,11 @@ type Props = {
   activeCodeType: string,
   updateField: (string, string) => void,
   fieldValues: any,
-}
+};
 
 const generateTextInput = (
   key: number,
-  onChange: (string) => void,
+  onChange: string => void,
   placeholder: string,
   keyboardType: string = 'default',
   secureTextEntry: boolean = false,
@@ -61,8 +61,8 @@ const CodeGeneratingForm = (props: Props) => {
             i18n.t('screens.generate.fieldsNames.emailBody'),
             'default',
             false,
-            true)
-          }
+            true,
+          )}
         </View>
       );
     case codeTypesList.TEL:
@@ -102,8 +102,12 @@ const CodeGeneratingForm = (props: Props) => {
             <React.Fragment>
               <Picker
                 title="Pick encryption type"
-                placeholder={i18n.t('screens.generate.fieldsNames.wifiEncryption')}
-                onSetValue={text => props.updateField(fieldTypesList.WIFI_ENCRYPTION, text)}
+                placeholder={i18n.t(
+                  'screens.generate.fieldsNames.wifiEncryption',
+                )}
+                onSetValue={text =>
+                  props.updateField(fieldTypesList.WIFI_ENCRYPTION, text)
+                }
                 items={[
                   { id: 1, label: 'None', value: '' },
                   { id: 2, label: 'WEP', value: 'WEP' },
@@ -127,11 +131,19 @@ const CodeGeneratingForm = (props: Props) => {
                 'default',
                 true,
               )}
-              <Text marginB-20 marginT-15 defaultLight darkGray>Encryption</Text>
+              <Text marginB-20 marginT-15 defaultLight darkGray>
+                Encryption
+              </Text>
               <Picker
-                title={i18n.t('screens.generate.fieldsNames.wifiEncryptionTitle')}
-                placeholder={i18n.t('screens.generate.fieldsNames.wifiEncryption')}
-                onSetValue={text => props.updateField(fieldTypesList.WIFI_ENCRYPTION, text)}
+                title={i18n.t(
+                  'screens.generate.fieldsNames.wifiEncryptionTitle',
+                )}
+                placeholder={i18n.t(
+                  'screens.generate.fieldsNames.wifiEncryption',
+                )}
+                onSetValue={text =>
+                  props.updateField(fieldTypesList.WIFI_ENCRYPTION, text)
+                }
                 items={[
                   { id: 1, label: 'None', value: '' },
                   { id: 2, label: 'WEP', value: 'WEP' },
@@ -213,7 +225,9 @@ const CodeGeneratingForm = (props: Props) => {
               <Picker
                 type="datetime"
                 placeholder={i18n.t('screens.generate.fieldsNames.eventStart')}
-                onSetValue={text => props.updateField(fieldTypesList.EVENT_START, text)}
+                onSetValue={text =>
+                  props.updateField(fieldTypesList.EVENT_START, text)
+                }
                 title={i18n.t('screens.generate.fieldsNames.eventDateTitle')}
               />
             </View>
@@ -221,9 +235,13 @@ const CodeGeneratingForm = (props: Props) => {
               <Picker
                 type="datetime"
                 placeholder={i18n.t('screens.generate.fieldsNames.eventEnd')}
-                minimumDate={props.fieldValues[fieldTypesList.EVENT_START]
-                  && props.fieldValues[fieldTypesList.EVENT_START]}
-                onSetValue={text => props.updateField(fieldTypesList.EVENT_END, text)}
+                minimumDate={
+                  props.fieldValues[fieldTypesList.EVENT_START] &&
+                  props.fieldValues[fieldTypesList.EVENT_START]
+                }
+                onSetValue={text =>
+                  props.updateField(fieldTypesList.EVENT_END, text)
+                }
                 title={i18n.t('screens.generate.fieldsNames.eventDateTitle')}
               />
             </View>

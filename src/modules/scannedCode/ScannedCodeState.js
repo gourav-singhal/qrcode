@@ -8,7 +8,8 @@ import { codeTypesList } from '../newCode/NewCodeState';
 type ScannedCodeState = {};
 
 type Action = {
-  type: string, payload: any,
+  type: string,
+  payload: any,
 };
 
 const initialState: ScannedCodeState = {};
@@ -18,37 +19,45 @@ const initialState: ScannedCodeState = {};
  * @param array elements array
  * @param startIndex starts from the given index
  */
-export function convertArrayToKeyValue(array: Array<any>, startIndex: number = 0): any {
+export function convertArrayToKeyValue(
+  array: Array<any>,
+  startIndex: number = 0,
+): any {
   const keyValue = {};
-  for (let i = startIndex, j = startIndex + 1; array[i] || array[j]; i += 2, j += 2) {
+  for (
+    let i = startIndex, j = startIndex + 1;
+    array[i] || array[j];
+    i += 2, j += 2
+  ) {
     if (array[i] && array[j]) keyValue[array[i]] = array[j];
   }
   return keyValue;
 }
 
-export function parseScannedString(scannedString: string = ''): {
+export function parseScannedString(
+  scannedString: string = '',
+): {
   type: string,
   fields: Array<{
     title: string,
     value: string,
-  }>
+  }>,
 } {
   const result: {
     type: string,
     fields: Array<{
       title: string,
       value: string,
-    }>
+    }>,
   } = {
     type: codeTypesList.TEXT,
     fields: [],
   };
 
   if (!scannedString) {
-    // eslint-disable-next-line no-param-reassign
     scannedString = '';
   }
-  // eslint-disable-next-line no-param-reassign
+
   scannedString = `${scannedString}`;
   const splittedInputString = scannedString.split(':');
   switch (scannedString.split(':')[0].toUpperCase()) {
@@ -56,8 +65,14 @@ export function parseScannedString(scannedString: string = ''): {
     case 'SMS':
       result.type = codeTypesList.SMS;
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.smsTo'), value: splittedInputString[1] || '' },
-        { title: i18n.t('screens.generate.fieldsNames.emailBody'), value: splittedInputString[2] || '' },
+        {
+          title: i18n.t('screens.generate.fieldsNames.smsTo'),
+          value: splittedInputString[1] || '',
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.emailBody'),
+          value: splittedInputString[2] || '',
+        },
       ];
       break;
     case 'WIFI':
@@ -72,22 +87,37 @@ export function parseScannedString(scannedString: string = ''): {
         .replace('WIFI:', '')
         .replace(';;', '');
       const scannedWifiValues = cleanedWifiString.split(';');
-      scannedWifiValues.forEach((value) => {
+      scannedWifiValues.forEach(value => {
         const keyValue = value.split(':');
         parsedWifiFields[keyValue[0].toLocaleLowerCase()] = keyValue[1] || '';
       });
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.wifiSsid'), value: parsedWifiFields.s },
-        { title: i18n.t('screens.generate.fieldsNames.wifiEncryption'), value: parsedWifiFields.t },
-        { title: i18n.t('screens.generate.fieldsNames.wifiPassword'), value: parsedWifiFields.p },
+        {
+          title: i18n.t('screens.generate.fieldsNames.wifiSsid'),
+          value: parsedWifiFields.s,
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.wifiEncryption'),
+          value: parsedWifiFields.t,
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.wifiPassword'),
+          value: parsedWifiFields.p,
+        },
       ];
       break;
     case 'GEO':
       result.type = codeTypesList.GEO;
       const geoString = splittedInputString[1] || '';
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.geoLong'), value: geoString.split(',')[0] || '' },
-        { title: i18n.t('screens.generate.fieldsNames.geoLat'), value: geoString.split(',')[1] || '' },
+        {
+          title: i18n.t('screens.generate.fieldsNames.geoLong'),
+          value: geoString.split(',')[0] || '',
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.geoLat'),
+          value: geoString.split(',')[1] || '',
+        },
       ];
       break;
     case 'MATMSG':
@@ -102,14 +132,23 @@ export function parseScannedString(scannedString: string = ''): {
         .replace('MATMSG:', '')
         .replace(';;', '');
       const scannedValues = cleanedString.split(';');
-      scannedValues.forEach((value) => {
+      scannedValues.forEach(value => {
         const keyValue = value.split(':');
         parsedFields[keyValue[0].toLocaleLowerCase()] = keyValue[1] || '';
       });
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.emailTo'), value: parsedFields.to },
-        { title: i18n.t('screens.generate.fieldsNames.emailSubject'), value: parsedFields.sub },
-        { title: i18n.t('screens.generate.fieldsNames.emailBody'), value: parsedFields.body },
+        {
+          title: i18n.t('screens.generate.fieldsNames.emailTo'),
+          value: parsedFields.to,
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.emailSubject'),
+          value: parsedFields.sub,
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.emailBody'),
+          value: parsedFields.body,
+        },
       ];
       break;
     case 'MAILTO':
@@ -120,31 +159,45 @@ export function parseScannedString(scannedString: string = ''): {
       let emailSubject;
       let emailBody;
       if (emailParamsArray[0].split('=')[0].toLocaleLowerCase() === 'subject') {
-        // eslint-disable-next-line
         emailSubject = emailParamsArray[0].split('=')[1];
       }
       if (emailParamsArray[0].split('=')[0].toLocaleLowerCase() === 'body') {
-        // eslint-disable-next-line
         emailBody = emailParamsArray[0].split('=')[1];
       }
-      if (emailParamsArray[1] && emailParamsArray[1].split('=')[0].toLocaleLowerCase() === 'subject') {
-        // eslint-disable-next-line
+      if (
+        emailParamsArray[1] &&
+        emailParamsArray[1].split('=')[0].toLocaleLowerCase() === 'subject'
+      ) {
         emailSubject = emailParamsArray[1].split('=')[1];
       }
-      if (emailParamsArray[1] && emailParamsArray[1].split('=')[0].toLocaleLowerCase() === 'body') {
-        // eslint-disable-next-line
+      if (
+        emailParamsArray[1] &&
+        emailParamsArray[1].split('=')[0].toLocaleLowerCase() === 'body'
+      ) {
         emailBody = emailParamsArray[1].split('=')[1];
       }
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.emailTo'), value: emailString.split('?')[0] || '' },
-        { title: i18n.t('screens.generate.fieldsNames.emailSubject'), value: emailSubject || '' },
-        { title: i18n.t('screens.generate.fieldsNames.emailBody'), value: emailBody || '' },
+        {
+          title: i18n.t('screens.generate.fieldsNames.emailTo'),
+          value: emailString.split('?')[0] || '',
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.emailSubject'),
+          value: emailSubject || '',
+        },
+        {
+          title: i18n.t('screens.generate.fieldsNames.emailBody'),
+          value: emailBody || '',
+        },
       ];
       break;
     case 'TEL':
       result.type = codeTypesList.TEL;
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.smsTo'), value: splittedInputString[1] || '' },
+        {
+          title: i18n.t('screens.generate.fieldsNames.smsTo'),
+          value: splittedInputString[1] || '',
+        },
       ];
       break;
     case 'BEGIN': {
@@ -152,7 +205,10 @@ export function parseScannedString(scannedString: string = ''): {
         result.type = codeTypesList.CONTACT;
         const parsedCard = vcard.parse(scannedString);
         result.fields = [
-          { title: i18n.t('screens.generate.fieldsNames.contactName'), value: _.get(parsedCard, 'n[0].value[1]', '') },
+          {
+            title: i18n.t('screens.generate.fieldsNames.contactName'),
+            value: _.get(parsedCard, 'n[0].value[1]', ''),
+          },
           {
             title: i18n.t('screens.generate.fieldsNames.contactSurname'),
             value: _.get(parsedCard, 'n[0].value[0]', ''),
@@ -176,41 +232,64 @@ export function parseScannedString(scannedString: string = ''): {
         result.type = codeTypesList.EVENT;
         const splittedLines = scannedString.split(/\r?\n/);
         const eventData = {};
-        splittedLines.forEach((line) => {
-          // eslint-disable-next-line no-param-reassign
+        splittedLines.forEach(line => {
           if (line[0] === ' ') line = line.slice(1);
-          // eslint-disable-next-line prefer-destructuring
           eventData[line.split(':')[0]] = line.split(':')[1];
         });
         result.fields = [
-          { title: i18n.t('screens.generate.fieldsNames.eventTitle'), value: eventData.SUMMARY || '' },
-          { title: i18n.t('screens.generate.fieldsNames.eventLocation'), value: eventData.LOCATION || '' },
-          { title: i18n.t('screens.generate.fieldsNames.eventDescription'), value: eventData.DESCRIPTION || '' },
-          { title: i18n.t('screens.generate.fieldsNames.eventStart'), value: eventData.DTSTART || '' },
-          { title: i18n.t('screens.generate.fieldsNames.eventEnd'), value: eventData.DTEND || '' },
+          {
+            title: i18n.t('screens.generate.fieldsNames.eventTitle'),
+            value: eventData.SUMMARY || '',
+          },
+          {
+            title: i18n.t('screens.generate.fieldsNames.eventLocation'),
+            value: eventData.LOCATION || '',
+          },
+          {
+            title: i18n.t('screens.generate.fieldsNames.eventDescription'),
+            value: eventData.DESCRIPTION || '',
+          },
+          {
+            title: i18n.t('screens.generate.fieldsNames.eventStart'),
+            value: eventData.DTSTART || '',
+          },
+          {
+            title: i18n.t('screens.generate.fieldsNames.eventEnd'),
+            value: eventData.DTEND || '',
+          },
         ];
         break;
       }
       result.type = codeTypesList.TEXT;
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.text'), value: scannedString },
+        {
+          title: i18n.t('screens.generate.fieldsNames.text'),
+          value: scannedString,
+        },
       ];
       break;
     }
     default:
       result.type = codeTypesList.TEXT;
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.text'), value: scannedString },
+        {
+          title: i18n.t('screens.generate.fieldsNames.text'),
+          value: scannedString,
+        },
       ];
   }
 
   if (result.type === codeTypesList.TEXT) {
-    // eslint-disable-next-line
-    const urlRegexp = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/);
+    const urlRegexp = new RegExp(
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
+    );
     if (scannedString.match(urlRegexp)) {
       result.type = codeTypesList.URL;
       result.fields = [
-        { title: i18n.t('screens.generate.fieldsNames.url'), value: scannedString },
+        {
+          title: i18n.t('screens.generate.fieldsNames.url'),
+          value: scannedString,
+        },
       ];
     }
   }
@@ -218,7 +297,10 @@ export function parseScannedString(scannedString: string = ''): {
   return result;
 }
 
-export default function ScannedCodeReducer(state: ScannedCodeState = initialState, action: Action): ScannedCodeState {
+export default function ScannedCodeReducer(
+  state: ScannedCodeState = initialState,
+  action: Action,
+): ScannedCodeState {
   switch (action.type) {
     default:
       return state;

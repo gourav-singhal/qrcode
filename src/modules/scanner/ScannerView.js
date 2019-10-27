@@ -15,12 +15,12 @@ import { commonStyles, colors, scale } from '../../styles';
 
 type Props = {
   navigation: {
-    navigate: (string) => void,
+    navigate: string => void,
   },
   toggleFlashlight: () => void,
   closeModal: () => void,
   isModalOpened: boolean,
-  onCodeScanned: (string) => void,
+  onCodeScanned: string => void,
   focusedScreen: boolean,
   isFlashlightOn: boolean,
   scanInProgress: boolean,
@@ -32,35 +32,41 @@ const windowHeight = Dimensions.get('window').height;
 export default function HomeView(props: Props) {
   return (
     <SafeAreaView style={commonStyles.safeArea}>
-      <StatusBar
-        backgroundColor={colors.lightBlue}
-      />
+      <StatusBar backgroundColor={colors.lightBlue} />
       <View flex>
-        { props.focusedScreen ? (
+        {props.focusedScreen ? (
           <RNCamera
+            captureAudio={false}
             style={styles.cameraPreview}
-            flashMode={props.isFlashlightOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
-            permissionDialogTitle="Permission to use camera"
-            permissionDialogMessage="We need your permission to use your camera phone"
-            onBarCodeRead={Platform.select({
-              ios: props.onCodeScanned,
-              android: null,
-            })}
-            onGoogleVisionBarcodesDetected={Platform.select({
-              android: props.onCodeScanned,
-              ios: null,
-            })}
-            notAuthorizedView={(
+            flashMode={
+              props.isFlashlightOn
+                ? RNCamera.Constants.FlashMode.torch
+                : RNCamera.Constants.FlashMode.off
+            }
+            androidCameraPermissionOptions={{
+              title: 'Permission to use camera',
+              message: 'We need your permission to use your camera',
+              buttonPositive: 'Ok',
+              buttonNegative: 'Cancel',
+            }}
+            onBarCodeRead={props.onCodeScanned}
+            notAuthorizedView={
               <View flex centerV centerH paddingH-30>
-                <Text h2 darkBlue center>{i18n.t('screens.scanner.accessTitle')}</Text>
-                { Platform.OS === 'ios' && (
-                  <Text marginT-15 p center>{i18n.t('screens.scanner.accessMessageIos')}</Text>
+                <Text h2 darkBlue center>
+                  {i18n.t('screens.scanner.accessTitle')}
+                </Text>
+                {Platform.OS === 'ios' && (
+                  <Text marginT-15 p center>
+                    {i18n.t('screens.scanner.accessMessageIos')}
+                  </Text>
                 )}
-                { Platform.OS === 'android' && (
-                  <Text marginT-15 p center>{i18n.t('screens.scanner.accessMessageAndroid')}</Text>
+                {Platform.OS === 'android' && (
+                  <Text marginT-15 p center>
+                    {i18n.t('screens.scanner.accessMessageAndroid')}
+                  </Text>
                 )}
               </View>
-            )}
+            }
           >
             <Image
               style={styles.scanAreaIcon}
@@ -72,7 +78,10 @@ export default function HomeView(props: Props) {
 
             <TouchableOpacity
               onPress={props.toggleFlashlight}
-              style={[styles.flashlightButton, props.isFlashlightOn && styles.flashlightButtonOn]}
+              style={[
+                styles.flashlightButton,
+                props.isFlashlightOn && styles.flashlightButtonOn,
+              ]}
               testID="button:flashlight"
             >
               {props.isFlashlightOn && (
@@ -95,7 +104,9 @@ export default function HomeView(props: Props) {
               )}
             </TouchableOpacity>
           </RNCamera>
-        ) : <View flex />}
+        ) : (
+          <View flex />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -114,7 +125,10 @@ const styles = StyleSheet.create({
   cameraPreview: {
     width: windowWidth,
     height: Platform.select({ ios: windowHeight + 50, android: windowHeight }),
-    marginTop: Platform.select({ ios: -50, android: -1 * StatusBar.currentHeight }),
+    marginTop: Platform.select({
+      ios: -50,
+      android: -1 * StatusBar.currentHeight,
+    }),
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -125,7 +139,10 @@ const styles = StyleSheet.create({
   },
   flashlightButton: {
     position: 'absolute',
-    bottom: Platform.select({ android: scale(80), ios: iphoneXorBigger() ? 170 : 115 }),
+    bottom: Platform.select({
+      android: scale(80),
+      ios: iphoneXorBigger() ? 170 : 115,
+    }),
     width: 100,
     height: 40,
     borderColor: colors.white,

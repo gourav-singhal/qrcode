@@ -1,13 +1,7 @@
 // @flow
 import React from 'react';
-import {
-  TextInput as RNTextInput,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-import {
-  TextInput as UITextInput,
-} from 'react-native-ui-lib';
+import { TextInput as RNTextInput, StyleSheet, Platform } from 'react-native';
+import { TextInput as UITextInput } from 'react-native-ui-lib';
 
 import { colors } from '../styles';
 
@@ -64,9 +58,7 @@ const styles = StyleSheet.create({
       color: colors.darkGray,
       marginBottom: 15,
     },
-    android: {
-
-    },
+    android: {},
   }),
 });
 
