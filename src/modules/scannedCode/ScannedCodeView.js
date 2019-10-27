@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-easy-toast';
 import openMap from 'react-native-open-maps';
-import { View, Text, TextInput, Image } from 'react-native-ui-lib';
+import { View, Text, TextField, Image } from 'react-native-ui-lib';
 
 import i18n from '../../translations';
 import { colors } from '../../styles';
@@ -85,7 +85,7 @@ export const OpenInMaps = (props: { longitude: number, latitude: number }) => (
 
 export const CustomInput = (props: any) => (
   <View>
-    <TextInput {...props} floatingPlaceholderColor={colors.darkGray} />
+    <TextField {...props} floatingPlaceholderColor={colors.darkGray} />
     <TouchableOpacity
       onPress={() => props.copyToClipboard(props.value)}
       style={styles.customInputContainer}

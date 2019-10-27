@@ -450,6 +450,7 @@ exports[`Pricing View should render properly 1`] = `
               onStartShouldSetResponder={[Function]}
               style={
                 Object {
+                  "borderRadius": 50,
                   "opacity": 1,
                   "shadowColor": "#FC6821",
                   "shadowOffset": Object {
@@ -485,7 +486,6 @@ exports[`Pricing View should render properly 1`] = `
                   Array [
                     Object {
                       "borderRadius": 50,
-                      "elevation": 1,
                       "padding": 20,
                     },
                     undefined,

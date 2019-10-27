@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   TouchableWithoutFeedback,
+  TouchableNativeFeedback,
   Keyboard,
   Platform,
 } from 'react-native';
@@ -18,6 +19,11 @@ import { Button } from '../../components';
 
 import { commonStyles, colors } from '../../styles';
 import i18n from '../../translations';
+
+const TileTouchableComponent = Platform.select({
+  ios: TouchableOpacity,
+  android: TouchableNativeFeedback,
+});
 
 type Props = {
   navigation: {
@@ -79,7 +85,12 @@ export default function NewCodeView(props: Props) {
         style={styles.typesContainer}
       >
         {codeTypes.map((codeType, index) => (
-          <TouchableOpacity
+          <TileTouchableComponent
+            // useForeground={Platform.select({ android: true, ios: null })}
+            background={Platform.select({
+              android: TouchableNativeFeedback.Ripple('#e3e3e3', false),
+              ios: null,
+            })}
             testID={`button:codeType-${codeType.label}`}
             key={codeType.id}
             onPress={
@@ -87,43 +98,47 @@ export default function NewCodeView(props: Props) {
                 ? () => props.navigation.navigate('Pricing')
                 : () => props.changeCodeType(codeType.label)
             }
-            style={[
-              styles.typeContainer,
-              index === codeTypes.length - 1 && {
-                marginRight: Platform.select({ android: 30, ios: 40 }),
-              },
-              codeType.label === props.activeCodeType && styles.activeCodeType,
-            ]}
           >
-            <Image
-              assetGroup="types"
-              assetName={
-                codeType.label !== props.activeCodeType
-                  ? codeType.icon
-                  : `${codeType.icon}-white`
-              }
-            />
-            <Text
-              center
-              h3
-              lightBlue
-              marginT-5
-              white={codeType.label === props.activeCodeType}
+            <View
+              style={[
+                styles.typeContainer,
+                index === codeTypes.length - 1 && {
+                  marginRight: Platform.select({ android: 30, ios: 40 }),
+                },
+                codeType.label === props.activeCodeType &&
+                  styles.activeCodeType,
+              ]}
             >
-              {codeType.label}
-            </Text>
-            {codeType.proOnly && !props.isPro && (
-              <View
-                style={styles.proLabel}
-                paddingH-3
-                paddingV-1
-                marginB-4
-                marginL-5
+              <Image
+                assetGroup="types"
+                assetName={
+                  codeType.label !== props.activeCodeType
+                    ? codeType.icon
+                    : `${codeType.icon}-white`
+                }
+              />
+              <Text
+                center
+                h3
+                lightBlue
+                marginT-5
+                white={codeType.label === props.activeCodeType}
               >
-                <Text white>{i18n.t('other.pro')}</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+                {codeType.label}
+              </Text>
+              {codeType.proOnly && !props.isPro && (
+                <View
+                  style={styles.proLabel}
+                  paddingH-3
+                  paddingV-1
+                  marginB-4
+                  marginL-5
+                >
+                  <Text white>{i18n.t('other.pro')}</Text>
+                </View>
+              )}
+            </View>
+          </TileTouchableComponent>
         ))}
       </ScrollView>
       <KeyboardAwareScrollView

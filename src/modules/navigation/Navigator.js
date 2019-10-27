@@ -2,7 +2,6 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { Platform, StatusBar } from 'react-native';
 import { Image, TouchableOpacity } from 'react-native-ui-lib';
 
@@ -20,7 +19,10 @@ import Pricing from '../pricing/PricingViewContainer';
 
 const tabbarCreatingFunction = Platform.select({
   ios: createBottomTabNavigator,
-  android: createMaterialBottomTabNavigator,
+  // createMaterialBottomTabNavigator behaves weiredly when there's some
+  // elements with elevation on the screen. transitions look bad. as a temporary
+  // solution, let's use createBottomTabNavigator on Android
+  android: createBottomTabNavigator,
 });
 
 const TabNavigator = tabbarCreatingFunction(

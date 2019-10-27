@@ -1,6 +1,11 @@
 // @flow
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  TouchableNativeFeedback,
+  Platform,
+} from 'react-native';
 import { Text } from 'react-native-ui-lib';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -17,13 +22,23 @@ type ButtonProps = {
   testID?: string,
 };
 
+const TouchableComponent = Platform.select({
+  ios: TouchableOpacity,
+  android: TouchableNativeFeedback,
+});
+
 const Button = (props: ButtonProps) => {
   const variant = colors[props.variant];
   const gradient = !variant
     ? [colors.primaryGradientStart, colors.primaryGradientEnd]
     : [variant, variant];
   return (
-    <TouchableOpacity
+    <TouchableComponent
+      useForeground={Platform.select({ android: true, ios: null })}
+      background={Platform.select({
+        android: TouchableNativeFeedback.Ripple('white', false),
+        ios: null,
+      })}
       testID={props.testID}
       onPress={props.onPress}
       style={styles.buttonContainer}
@@ -58,7 +73,7 @@ const Button = (props: ButtonProps) => {
           props.children
         )}
       </LinearGradient>
-    </TouchableOpacity>
+    </TouchableComponent>
   );
 };
 
@@ -71,11 +86,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
+    borderRadius: 50,
   },
   button: {
     padding: 20,
     borderRadius: 50,
-    elevation: 1,
   },
   buttonText: {
     color: colors.white,
